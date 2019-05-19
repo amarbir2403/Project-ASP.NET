@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = @Model.Name;
+}
+
+@model BoardGame
+
+<!-- Game title -->
+<div class="container">
+    <h1 class="text-center">@Model.Name</h1>
+    <br />
+</div>
+
+<!-- Main content -->
+<div class="container">
+
+    <!-- Game image and description -->
+    <div class="row">
+        <div class="col-3">
+            <img src="@Model.ImageURL" alt="@Model.Name Cover" class="border border-white img-fluid">
+        </div>
+        <div class="col-9">
+            <p>@Model.Description</p>
+        </div>
+    </div>
+    
+    <hr />
+
+    <!-- Game info -->
+    <div class="game-information">
+        <div class="card-group">
+            <div class="card">
+                <h5 class="card-header">Main info</h5>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item "><b>Publisher:</b> @Model.Publisher</li>
+                        <li class="list-group-item "><b>Category:</b> @Model.Category</li>
+                        <li class="list-group-item "><b>Players:</b> @Model.Players</li>
+                        <li class="list-group-item "><b>Release:</b> @Model.ReleaseDate.ToString("MMMM dd, yyyy")</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <h5 class="card-header">Buy</h5>
+                <div class="card-body">
+                    <p class="card-text"><b>Price: </b> @Model.Price.ToString("C")</p>
+                    <p class="card-text"><b>Available: </b> @Model.Quantity</p>
+
+                    <form asp-controller="ShoppingCart" asp-action="Add" method="post">
+                        <div class="input-group text-white">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-primary" type="submit"><i class="fas fa-cart-plus"></i> Add to the cart</button>
+                            </div>
+                            <input type="hidden" name="productid" value="@Model.Id" />
+                            <select class="custom-select" name="ItemQuantity" id="ItemQuantity">
+                                @for (var Index = 1; Index <= Model.Quantity; ++Index)
+                                {
+                                    <option value="@Index">@Index</option>
+                                }
+                            </select>
+                        </div>
+                    </form>
+                    <!--
+                    <a asp-area="" asp-controller="ShoppingCart" asp-action="Add" type="button" class="btn btn-primary btn-lg btn-block"><i class="fas fa-cart-plus"></i> Add to the cart</a>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

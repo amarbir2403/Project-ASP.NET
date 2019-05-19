@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="main-carousel">
+    <div class="main-carousel-image">
+        <div class="main-carousel-image-text w-100 h-100 d-flex align-items-center">
+            <div class="main-carousel-image-text-container container">
+                <h1 class="text-left w-75 mx-auto">Top quality board games</h1>
+                <h1 class="text-right w-75 mx-auto">Top quality prices</h1>
+            </div>
+        </div>
+
+        <div class="main-carousel-image-source">
+            <img src="~/images/top-image.png" alt="Board Games" class="img-fluid" />
+        </div>
+    </div>
+
+    <nav class="main-header-navigation-tab">
+        <div class="container">
+            <ul class="nav nav-tabs nav-justified justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" id="latest-tab" data-toggle="tab" href="#latest" role="tab" aria-controls="latest" aria-selected="true">Latest Releases</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="top-tab" data-toggle="tab" href="#top" role="tab" aria-controls="top" aria-selected="false">Top Rated</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="sale-tab" data-toggle="tab" href="#sale" role="tab" aria-controls="sale" aria-selected="false">On Sale</a>
+                </li>
+            </ul>
+        </div>        
+    </nav>
+</div>
+
+<div id="main-content">
+
+    <!-- -->
+    <div class="container">
+        
+        @model BoardGameViewModel
+
+        <div id="latest-release">
+
+            <div class="tab-content">
+                <!-- Latest Board Games -->
+                <div class="tab-pane active" id="latest" role="tabpanel" aria-labelledby="latest-tab">
+                    <div class="card-deck row">
+                        @{ var Counter = 0;}
+                        @foreach (var Game in Model.BoardGames.OrderByDescending(b => b.ReleaseDate))
+                        {
+                            <a class="card card-shadow-box" asp-area="" asp-controller="BoardGames" asp-action="Item" asp-route-id="@Game.Id">
+                                <img class="card-img-top img-fluid" src="@Game.ImageURL" alt="Spider-man">
+                                <div class="card-header">@Game.Name</div>
+                                <div class="card-body d-none d-sm-block">
+                                    <p class="card-text">
+                                        @if (Game.Description.Length < 200)
+                                        {
+                                            @Game.Description
+                                        }
+                                        else
+                                        {
+                                            @Game.Description.Substring(0, 196)
+                                        }
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <p>@Game.ReleaseDate.ToString("MMMM dd, yyyy") <span class="float-right">Players: <i>@Game.Players</i></span></p>
+                                </div>
+                            </a>
+
+                            @if (++Counter % 4 == 0)
+                            {
+                                <div class="w-100 d-none d-sm-block d-md-block d-lg-block"></div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <!-- Top Rated Board Games -->
+                <div class="tab-pane" id="top" role="tabpanel" aria-labelledby="top-tab">
+                    
+                </div>
+
+                <!-- On Sale Board Games -->
+                <div class="tab-pane" id="sale" role="tabpanel" aria-labelledby="sale-tab">
+                    <div class="card-deck row">
+                        @{ Counter = 0;}
+                        @foreach (var Game in Model.BoardGames.OrderBy(b => b.Price))
+                        {
+                            <a class="card card-shadow-box col-3" asp-area="" asp-controller="BoardGames" asp-action="Item" asp-route-id="@Game.Id">
+                                <img class="card-img-top img-fluid" src="@Game.ImageURL" alt="Spider-man">
+                                <div class="card-header">@Game.Name</div>
+                                <div class="card-body d-none d-sm-block">
+                                    <p class="card-text">
+                                        @if (Game.Description.Length < 200)
+                                        {
+                                            @Game.Description
+                                        }
+                                        else
+                                        {
+                                            @Game.Description.Substring(0, 196)
+                                        }
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <p>@Game.ReleaseDate.ToString("MMMM dd, yyyy") <span class="float-right">Players: <i>@Game.Players</i></span></p>
+                                </div>
+                            </a>
+
+                            @if (++Counter % 4 == 0)
+                            {
+                                <div class="w-100 d-none d-sm-block d-md-block d-lg-block"></div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

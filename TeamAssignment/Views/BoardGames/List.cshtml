@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "List";
+}
+
+@model BoardGameViewModel
+
+<div class="container">
+    <br />
+    <div class="result-list">
+
+        @foreach (var boardGame in Model.BoardGames)
+        {
+        <div class="result mb-3">
+            <div class="row">
+                <div class="col-2">
+                    <a asp-controller="BoardGames" asp-action="Item" asp-route-id="@boardGame.Id"><img src="@boardGame.ImageURL" alt="@boardGame.Name image" class="img-fluid" /></a>
+                </div>
+                <div class="col-10">
+                    <h4><a asp-controller="BoardGames" asp-action="Item" asp-route-id="@boardGame.Id">@boardGame.Name</a></h4>
+                    <h6 class="text-muted">@boardGame.ReleaseDate.ToString("dd MMMM yyyy")</h6>
+                    <p>
+                        @(boardGame.Description.Length < 188 ? @boardGame.Description : @boardGame.Description.Substring(0, 188) + " ...")
+                    </p>
+                </div>
+            </div>
+            <hr />
+        </div>
+        }
+
+    </div>
+</div>
